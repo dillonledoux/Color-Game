@@ -33,24 +33,47 @@ var h1 = document.querySelector("h1");
 var newColorsBtn = document.getElementById("newColors");
 var easyBtn = document.querySelector("#easyBtn");
 var hardBtn = document.querySelector("#hardBtn");
-
+var isEasy = false;
 
 easyBtn.addEventListener("click", function(){
     easyBtn.classList.add("selected");
     hardBtn.classList.remove("selected");
+    isEasy = true;
+    colors = generateRandomColors(3);
+    pickedColor = pickColor();
+    colorDisplay.textContent = pickedColor;
+    for(var i = 0; i<squares.length; i++){
+        if(colors[i]){
+            squares[i].style.backgroundColor = colors[i];
+        }
+        else{
+            squares[i].style.display = "none";
+        }
+    }
 
-})
+});
 
 hardBtn.addEventListener("click", function(){
     hardBtn.classList.add("selected");
     easyBtn.classList.remove("selected");
-    colors = generateRandomColors(3)
-    pickedColor = pickColor()
-})
+    colors = generateRandomColors(6);
+    pickedColor = pickColor();
+    colorDisplay.textContent = pickedColor;
+    isEasy = false;
+    for(var i = 0; i<squares.length; i++){
+        squares[i].style.backgroundColor = colors[i];
+        squares[i].style.display = "block";  
+    }
+});
 
 
 newColorsBtn.addEventListener("click", function(){
-    colors = generateRandomColors(6);
+    if(isEasy){
+        colors = generateRandomColors(3);
+    }
+    else{
+        colors = generateRandomColors(6);
+    }
     for(var i=0; i<squares.length; i++){
         //add initial colors to squares
         squares[i].style.backgroundColor = colors[i];
@@ -60,12 +83,13 @@ newColorsBtn.addEventListener("click", function(){
     messageDisplay.textContent = "";
     pickedColor = pickColor();
     colorDisplay.textContent = pickedColor;
-})
+});
 
+colorDisplay.textContent = pickedColor;
 for(var i=0; i<squares.length; i++){
     //add initial colors to squares
     squares[i].style.backgroundColor = colors[i];
-
+    
     //add click listeners
     squares[i].addEventListener("click", function(){
         var clickedColor = this.style.backgroundColor;
